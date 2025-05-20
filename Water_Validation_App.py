@@ -617,6 +617,7 @@ from core_validation import run_core_validation
 from ecoli_validation import run_ecoli_validation
 from advanced_validation import run_advanced_validation
 from riparian_validation import run_riparian_validation
+
 with tabs[6]:
     st.header("📦 Final Output (Auto Run All Validations)")
 
@@ -629,30 +630,16 @@ with tabs[6]:
 
         if st.button("🌀 Run Full Validation Pipeline"):
             try:
-                # ---- Load base dataframe ----
                 df = pd.read_excel(input_path)
 
-                # ---- Run GENERAL ----
-                from general_validation import run_general_validation
+                # ✅ اجرای مرحله‌ای
                 df = run_general_validation(df)
-
-                # ---- Run CORE ----
-                from core_validation import run_core_validation
                 df = run_core_validation(df)
-
-                # ---- Run ECOLI ----
-                from ecoli_validation import run_ecoli_validation
                 df = run_ecoli_validation(df)
-
-                # ---- Run ADVANCED ----
-                from advanced_validation import run_advanced_validation
                 df = run_advanced_validation(df)
-
-                # ---- Run RIPARIAN ----
-                from riparian_validation import run_riparian_validation
                 df = run_riparian_validation(df)
 
-                # ---- Save outputs ----
+                # 📁 ذخیره نهایی
                 final_clean_path = "final_cleaned_validated_output.xlsx"
                 final_annotated_path = "final_annotated_validated_output.xlsx"
 
@@ -660,7 +647,7 @@ with tabs[6]:
                 df_cleaned.to_excel(final_clean_path, index=False)
                 df.to_excel(final_annotated_path, index=False)
 
-                # ---- Download buttons ----
+                # 📥 دانلود فایل‌ها
                 st.success("✅ Full validation completed successfully!")
                 st.download_button("📥 Download Final Cleaned File", data=open(final_clean_path, 'rb').read(), file_name="final_cleaned_validated_output.xlsx")
                 st.download_button("📥 Download Final Annotated File", data=open(final_annotated_path, 'rb').read(), file_name="final_annotated_validated_output.xlsx")
